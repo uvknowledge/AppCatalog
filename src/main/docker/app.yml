@@ -1,0 +1,20 @@
+version: '2'
+services:
+    appcatalog-app:
+        image: appcatalog
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATA_MONGODB_URI=mongodb://appcatalog-mongodb:27017
+            - SPRING_DATA_MONGODB_DATABASE=AppCatalog
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=appcatalog-elasticsearch:9300
+        ports:
+            - 8080:8080
+    appcatalog-mongodb:
+        extends:
+            file: mongodb.yml
+            service: appcatalog-mongodb
+    appcatalog-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: appcatalog-elasticsearch

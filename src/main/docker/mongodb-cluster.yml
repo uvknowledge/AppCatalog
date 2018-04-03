@@ -1,0 +1,16 @@
+version: '2'
+services:
+    appcatalog-mongodb:
+        image: mongo:3.4.10
+        ports:
+            - "27017:27017"
+        command: mongos --configdb appcatalog-mongodb-config
+    appcatalog-mongodb-node:
+        build:
+            context: .
+            dockerfile: mongodb/MongoDB.Dockerfile
+        command: mongod --replSet rs1 --noprealloc --smallfiles
+    appcatalog-mongodb-config:
+        image: mongo:3.4.10
+        container_name: appcatalog-mongodb-config
+        command: mongod --noprealloc --smallfiles --configsvr --dbpath /data/db
